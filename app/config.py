@@ -2,7 +2,7 @@ class Config:
     '''
     General configuration parent class
     '''
-    pass
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://alex:password@localhost/pitchip'
 
 
 
@@ -25,3 +25,8 @@ class DevConfig(Config):
     '''
 
     DEBUG = True
+
+config_options = {
+    'development': DevConfig,
+    'production': ProdConfig
+}
