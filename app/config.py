@@ -5,8 +5,11 @@ class Config:
     General configuration parent class
     '''
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://alex:password@localhost/pitchip'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-
+    @staticmethod
+    def init_app(app):
+        pass
 
 class ProdConfig(Config):
     '''
