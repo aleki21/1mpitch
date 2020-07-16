@@ -4,6 +4,7 @@ class Config:
     '''
     General configuration parent class
     '''
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://alex:password@localhost/pitchip_test'
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://alex:password@localhost/pitchip'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOADED_PHOTOS_DEST ='app/static/photos'
@@ -41,7 +42,13 @@ class DevConfig(Config):
 
     DEBUG = True
 
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://alex:password@localhost/pitchip_test'
+
+
 config_options = {
 'development':DevConfig,
-'production':ProdConfig
+'production':ProdConfig,
+'test':TestConfig
 }
