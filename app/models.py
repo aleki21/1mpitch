@@ -68,3 +68,53 @@ class Review(db.Model):
     def get_reviews(cls,id):
         reviews = Review.query.filter_by(pitch_id=id).all()
         return reviews
+
+
+class Pitch(db.Model):
+    __tablename__ = 'pitches'
+
+    id = db.column(db.Integer,primary_key = True)
+    title = db.Column(db.String())
+    description = db.Column(db.String())
+    upvotes = db.Column(db.Integer)
+    downvotes = db.Column(db.Integer)
+    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+
+
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+        @classmethod
+        def get_category_pitch(cls,id):
+                category_pitches = Pitch.query.filter_by(category_id = id).order_by(Pitch.posted.desc())
+                return category_pitches
+
+        @classmethod
+        def get_pitch_id(cls,id):
+                pitch_id = Pitch.query.filter_by(id = id).order_by(Pitch.id.desc()) 
+                return pitch_id
+
+
+        def __repr__(self):
+                return f"Pitch {self.title}"
+
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+
+
+    id = db.Column(db.Integer,primary_key= True)
+    category_name = db.Column(db.string())
+    pitches = db.relationship("Pitch", backref ="category", lazy= "dynamic")
+
+    @classmethod
+    def get_category_name(cls,category_name):
+        categoryName = Category.query.filter_by(category_name = category_name).first()
+        return categoryName.id
+
+    def __repr__(self):
+        return f'category(self.category_name)'
+
